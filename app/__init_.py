@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from app.youtube import youtube_bp
+from app.youtube.play import youtube_bp
 
 
 def create_app():
