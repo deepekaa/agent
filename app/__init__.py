@@ -56,7 +56,7 @@ def create_app():
     email = generate_email_with_gemini(command)
     return jsonify({
         "success" : true,
-        "type' : "email",
+        "type" : "email",
         "email_generated" : true,
         "recipient" : recipients,
         "subject" : email["subject"],
