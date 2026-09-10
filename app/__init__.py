@@ -32,6 +32,41 @@ def create_app():
     def health():
         return jsonify({
             "status" : "ok",
+            "service" : "Nova AI Agent"
+        })
 
-    return app
+    @app.route("/agent", methods=["POST"])
+    def agent():
+        try:
+            data = request.get_json(silent=True) or {}
+            command = data.get("command',"").strip()
+
+            if not command:
+                return jsonify({
+                    "success" : False,
+                    "message" : "Command is required."
+            }), 400   
+            if not is_email_command(command):
+                return jsonify({
+                    "success" : False,
+                    "message" : "Please give a gmail command"
+                })
+
+    recipient = extract_email(command)
+    email = generate_email_with_gemini(command)
+    return jsonify({
+        "success" : true,
+        "type' : "email",
+        "email_generated" : true,
+        "recipient" : recipients,
+        "subject" : email["subject"],
+        "body" : email["body"],
+        "gmail_url" : create_gmail_url(
+            email["subject"],
+            email["body"],
+            recipient
+        )
+    })
+    
+return app
   
