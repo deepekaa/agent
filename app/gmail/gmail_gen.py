@@ -57,3 +57,16 @@ User command:
     try:
       with urllib.request.urlopen(req, timeout=30) as response:
         data = json.loads(response.read().decode())
+      text = data["candidates"][0]["content"]["parts"][0]["text"]
+      text = re.sub(r"'''(?:text)?|'''", "", text).strip()
+      subject = re.search(r"SUBJECT:\s*(.+)", text, re.I)
+      subject = re.search(r"BODY:\s*([\s\S])", text, re.I)
+      if not subject or not body:
+        raise RuntimeError("Gemini returned an invalid email format.")
+      return {
+        "subject": subject.group(1).strip(),
+        "body" : body.group(1).strip()
+      }
+
+except urllib.error.HTTPError as e:
+      
