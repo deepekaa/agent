@@ -39,7 +39,7 @@ def create_app():
     def agent():
         try:
             data = request.get_json(silent=True) or {}
-            command = data.get("command',"").strip()
+            command = data.get("command","").strip()
 
             if not command:
                 return jsonify({
