@@ -67,6 +67,11 @@ def create_app():
             recipient
         )
     })
-    
+
+except Exception as e:
+   return jsonify({
+       "success" : false,
+       "message" : str(e)
+   }), 500    
 return app
   
